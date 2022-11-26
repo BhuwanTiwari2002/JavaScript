@@ -1,0 +1,29 @@
+body {
+    margin: 0px;
+    padding: 0px;
+    background: #121212 !important ;
+    width: 100%;
+ }
+.padding-5
+ {
+    padding: 3%;
+ }
+#guessLetter
+{
+   margin: auto;
+   text-align: center;
+}
+
+#submit {
+   margin-top: 1%;
+   padding: 9px 20px;
+   background-color: #0dcaf0;
+   border: none;
+   border-radius: 5px;
+   cursor: pointer;
+   transition: all 0.5s ease 0s;
+   color: black;
+ }
+ #submit:hover {
+   background-color: #17b6d6;
+ }
