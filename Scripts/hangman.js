@@ -3,53 +3,91 @@ const hangmanWordDisplay = document.getElementById("hangmanWord");
 const hangmanSubmit = document.getElementById("submit");
 const userInput = document.getElementById("userLetter");
 const hangmanMissedLetters = document.getElementById("hangmanMissedLetters");
+const error = document.getElementById("error");
 let score = 0;
 let randomWord = "";
+let word;
+let displayedWord = [];
 
 getFileButton.onchange = function() 
 {
-    // Retrieve information about the selected file
-    let JSONfile = this.files[0];
-    // Instance of the FileReader Class
-    const fr = new FileReader();
-    // Reading the json file
-    fr.readAsText(JSONfile);
-    // Onces the file has finished loading, parse the JSON file
-    fr.onload = function() 
+    try
     {
-        let hangmanWords = JSON.parse(fr.result);
-        getWordForHangman(hangmanWords);
+        let JSONfile = this.files[0];
+        // Instance of the FileReader Class
+        const fr = new FileReader();
+        // Reading the json file
+        fr.readAsText(JSONfile);
+        // Onces the file has finished loading, parse the JSON file
+        fr.onload = function() 
+        {
+            let hangmanWords = JSON.parse(fr.result);
+            getWordForHangman(hangmanWords);
+        }
+    } catch(ex)
+    {
+        console.log(ex);
     }
+
 }
+
 hangmanSubmit.onclick = function()
 {
-    let userLetter = userInput.value;
-    checkIfLetterMatch(userLetter.toLowerCase());
+    try
+    {
+        let userLetter = userInput.value;
+        error.textContent = "";
+        checkIfLetterMatch(userLetter.toLowerCase());
+    } catch(ex) 
+    {
+        error.textContent = ex;
+        console.log(ex);
+    }
+   
 }; 
 
 function getWordForHangman(hangmanWords)
 { 
     randomWord = hangmanWords.commonWords[getRandomInt(990)]; 
     randomWord.split('').join(',');
-    for(let i = 0; i < randomWord.length; i++) 
+    /*
+    randomWord.forEach(() => {
+        displayedWord.push('_');
+        console.log(randomWord);
+        
+    })
+    */
+    //hangmanWordDisplay = displayedWord;
+   for(let i = 0; i < randomWord.length; i++) 
     {
-        hangmanWordDisplay.textContent += "_ ";
+        displayedWord.push('_');
+        //word = hangmanWordDisplay.textContent += "_ ";
         console.log(randomWord);
     }
+    hangmanWordDisplay.textContent = displayedWord;
+
 }
 
 //Returns a Random Int (This is used to get the one word from the .json file)
-function getRandomInt(max) {
-    return Math.floor(Math.random() * max);
-}
+function getRandomInt(max) { return Math.floor(Math.random() * max); }
 function checkIfLetterMatch(letter) 
 {
+    let found = false;
     for(let i = 0; i < randomWord.length; i++)
-    {
-        if(randomWord[i] == letter)
         {
-            score++;
-        } 
-        else { hangmanMissedLetters.textContent += letter + " "; }
-    }
+            if(randomWord[i] == letter)
+            {
+                score++;
+                console.log(score);
+                displayedWord[i] = letter;
+                found = true;
+            } 
+            
+        }
+        if(found == false)
+        { hangmanMissedLetters.textContent += letter + ","; }
+        hangmanWordDisplay.textContent = displayedWord;
+
 }
+    
+
