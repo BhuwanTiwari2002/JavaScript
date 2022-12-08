@@ -4,6 +4,7 @@ const hangmanSubmit = document.getElementById("submit");
 const userInput = document.getElementById("userLetter");
 const hangmanMissedLetters = document.getElementById("hangmanMissedLetters");
 const error = document.getElementById("error");
+//Global Variables 
 let score = 0;
 let randomWord = "";
 let word;
@@ -36,8 +37,8 @@ hangmanSubmit.onclick = function()
     try
     {
         let userLetter = userInput.value;
-        error.textContent = "";
         checkIfLetterMatch(userLetter.toLowerCase());
+        error.textContent = "";
     } catch(ex) 
     {
         error.textContent = ex;
@@ -50,26 +51,15 @@ function getWordForHangman(hangmanWords)
 { 
     randomWord = hangmanWords.commonWords[getRandomInt(990)]; 
     randomWord.split('').join(',');
-    /*
-    randomWord.forEach(() => {
-        displayedWord.push('_');
-        console.log(randomWord);
-        
-    })
-    */
-    //hangmanWordDisplay = displayedWord;
    for(let i = 0; i < randomWord.length; i++) 
     {
         displayedWord.push('_');
-        //word = hangmanWordDisplay.textContent += "_ ";
         console.log(randomWord);
     }
     hangmanWordDisplay.textContent = displayedWord;
 
 }
 
-//Returns a Random Int (This is used to get the one word from the .json file)
-function getRandomInt(max) { return Math.floor(Math.random() * max); }
 function checkIfLetterMatch(letter) 
 {
     let found = false;
@@ -82,12 +72,16 @@ function checkIfLetterMatch(letter)
                 displayedWord[i] = letter;
                 found = true;
             } 
-            
         }
-        if(found == false)
-        { hangmanMissedLetters.textContent += letter + ","; }
+        if(found == false && !(hangmanMissedLetters.textContent.includes(letter)) && !(displayedWord.includes(letter)))
+        {
+             hangmanMissedLetters.textContent += letter + ","; 
+        }
         hangmanWordDisplay.textContent = displayedWord;
 
 }
+
+//Returns a Random Int (This is used to get the one word from the .json file)
+function getRandomInt(max) { return Math.floor(Math.random() * max); }
     
 
