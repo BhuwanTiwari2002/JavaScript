@@ -77,6 +77,10 @@ function checkIfLetterMatch(letter)
         {
              hangmanMissedLetters.textContent += letter + ","; 
         }
+        if(score == randomWord.length + 1)
+        {
+            hangmanMissedLetters.textContent = "Congratulations you win!";
+        }
         hangmanWordDisplay.textContent = displayedWord;
 
 }
